@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kâtip · Türkçe Meet toplantıları için otomatik döküm</title>
+  <meta name="description" content="Kâtip, Türkçe Google Meet toplantılarını altyazıdan yazıya döker, dökümü Drive'a kaydeder, size ya da katılımcılara gönderir ve tek tıkla Gemini'ye aktarır.">
+  <meta property="og:title" content="Kâtip · Türkçe Meet toplantıları için otomatik döküm">
+  <meta property="og:description" content="Meet altyazısından döküm, Drive'a kayıt, katılımcılara e-posta ve tek tıkla Gemini.">
+  <meta property="og:image" content="https://segelferd.github.io/katip/assets/og.png">
+  <meta property="og:url" content="https://segelferd.github.io/katip/">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <style>
+    :root {
+      --zemin: #141B24; --zemin2: #1B2430; --yuzey: #222D3B; --cizgi: rgba(237,230,214,.12);
+      --yazi: #EDE6D6; --soluk: #A9B4C0; --cok-soluk: #7F8B99; --amber: #D9A02B; --amber-koyu: #B9861F;
+      --kirmizi: #C7442E; --yesil: #4E8C6A;
+      --serif: Georgia, "Times New Roman", serif;
+      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+    body { margin: 0; background: var(--zemin); color: var(--yazi); font: 17px/1.6 var(--sans); -webkit-font-smoothing: antialiased; }
+    a { color: var(--amber); }
+    img { max-width: 100%; height: auto; display: block; }
+    .kap { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+    @media (min-width: 720px) { .kap { padding: 0 32px; } }
+
+    /* üst çubuk */
+    header.ust { position: sticky; top: 0; z-index: 10; background: rgba(20,27,36,.86); backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--cizgi); }
+    header.ust .kap { display: flex; align-items: center; gap: 12px; height: 60px; }
+    .marka { display: flex; align-items: center; gap: 10px; color: var(--yazi); text-decoration: none; }
+    .marka img { width: 30px; height: 30px; border-radius: 7px; }
+    .marka b { font: 400 21px var(--serif); letter-spacing: .3px; }
+    nav.menu { margin-left: auto; display: flex; gap: 20px; }
+    nav.menu a { color: var(--soluk); text-decoration: none; font-size: 15px; }
+    nav.menu a:hover { color: var(--yazi); }
+    @media (max-width: 640px) { nav.menu a:not(.hep) { display: none; } }
+
+    /* kahraman */
+    .kahraman { background: radial-gradient(120% 120% at 0% 0%, #26344A 0%, var(--zemin2) 50%, var(--zemin) 100%);
+      padding: 64px 0 56px; border-bottom: 1px solid var(--cizgi); }
+    .kahraman .kap { display: grid; gap: 40px; align-items: center; }
+    @media (min-width: 920px) { .kahraman .kap { grid-template-columns: 1fr 1.15fr; } }
+    .rozet { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--soluk);
+      border: 1px solid var(--cizgi); border-radius: 999px; padding: 5px 12px; }
+    .rozet::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--amber); }
+    h1 { font: 700 clamp(34px, 6vw, 54px)/1.08 var(--sans); letter-spacing: -1px; margin: 18px 0 16px; color: #F6F1E6; }
+    h1 em, h2 em { font-style: normal; color: var(--amber); }
+    .giris { color: var(--soluk); font-size: 19px; margin: 0 0 28px; max-width: 34em; }
+    .dugmeler { display: flex; flex-wrap: wrap; gap: 12px; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 20px; border-radius: 8px;
+      font: 600 15px var(--sans); text-decoration: none; border: 1px solid transparent; min-height: 44px; }
+    .btn.ana { background: var(--amber); color: #1B2430; }
+    .btn.ana:hover { background: #E6B03E; }
+    .btn.ikincil { border-color: rgba(237,230,214,.3); color: var(--yazi); }
+    .btn.ikincil:hover { background: rgba(237,230,214,.06); }
+    .btn:focus-visible, nav a:focus-visible, summary:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
+    .not { margin: 14px 0 0; font-size: 14px; color: var(--cok-soluk); }
+    .cerceve { border-radius: 14px; overflow: hidden; border: 1px solid var(--cizgi);
+      box-shadow: 0 24px 60px rgba(0,0,0,.45); background: var(--zemin2); }
+
+    /* bölümler */
+    section.bolum { padding: 72px 0; border-bottom: 1px solid var(--cizgi); }
+    .ust-baslik { text-align: center; max-width: 720px; margin: 0 auto 44px; }
+    .etiket { font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--amber); font-weight: 600; }
+    h2 { font: 700 clamp(28px, 4.2vw, 38px)/1.15 var(--sans); letter-spacing: -.5px; margin: 10px 0 12px; color: #F6F1E6; }
+    .ust-baslik p { color: var(--soluk); margin: 0; }
+
+    .ozellikler { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+    .ozellik { background: var(--yuzey); border: 1px solid var(--cizgi); border-radius: 12px; padding: 22px; }
+    .ozellik .simge { width: 38px; height: 38px; border-radius: 9px; background: rgba(217,160,43,.14); color: var(--amber);
+      display: flex; align-items: center; justify-content: center; margin: 0 0 14px; }
+    .ozellik .simge svg { width: 20px; height: 20px; }
+    .ozellik h3 { margin: 0 0 6px; font-size: 17px; }
+    .ozellik p { margin: 0; color: var(--soluk); font-size: 15px; }
+
+    .vitrin { display: grid; gap: 40px; align-items: center; margin: 0 0 64px; }
+    .vitrin:last-child { margin-bottom: 0; }
+    @media (min-width: 860px) { .vitrin { grid-template-columns: 1fr 1fr; } .vitrin.ters > :first-child { order: 2; } }
+    .vitrin h3 { font-size: 26px; line-height: 1.2; margin: 0 0 12px; letter-spacing: -.3px; }
+    .vitrin p { color: var(--soluk); margin: 0 0 14px; }
+    .vitrin ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+    .vitrin li { display: flex; gap: 10px; color: var(--yazi); font-size: 16px; }
+    .vitrin li::before { content: ""; flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--amber); margin-top: 9px; }
+    .gorsel { display: flex; justify-content: center; }
+    .gorsel .cerceve.dar { width: min(100%, 330px); }
+    .gorsel .cerceve.orta { width: min(100%, 380px); }
+    .gorsel .cerceve.kirp { max-height: 560px; }
+    .gorsel .cerceve.kirp img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+
+    .adimlar { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); counter-reset: adim; }
+    .adim { position: relative; background: var(--yuzey); border: 1px solid var(--cizgi); border-radius: 12px; padding: 22px 22px 22px 68px; }
+    .adim::before { counter-increment: adim; content: counter(adim); position: absolute; left: 20px; top: 20px; width: 32px; height: 32px;
+      border-radius: 50%; background: var(--amber); color: #1B2430; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+    .adim h3 { margin: 0 0 4px; font-size: 16px; }
+    .adim p { margin: 0; color: var(--soluk); font-size: 15px; }
+
+    .gizlilik { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+    .gizlilik div { border-left: 3px solid var(--amber); padding: 4px 0 4px 16px; }
+    .gizlilik b { display: block; margin: 0 0 4px; }
+    .gizlilik span { color: var(--soluk); font-size: 15px; }
+
+    .sss { max-width: 800px; margin: 0 auto; }
+    details { border-bottom: 1px solid var(--cizgi); padding: 4px 0; }
+    summary { cursor: pointer; list-style: none; padding: 16px 32px 16px 0; font-weight: 600; position: relative; }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: "+"; position: absolute; right: 4px; top: 12px; font-size: 24px; color: var(--amber); font-weight: 400; }
+    details[open] summary::after { content: "−"; }
+    details p { margin: 0 0 18px; color: var(--soluk); }
+
+    footer { padding: 36px 0 48px; color: var(--cok-soluk); font-size: 14px; }
+    footer .kap { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; justify-content: space-between; }
+    footer nav { display: flex; gap: 18px; flex-wrap: wrap; }
+    footer a { color: var(--soluk); text-decoration: none; }
+    footer a:hover { color: var(--yazi); }
+  </style>
+</head>
+<body>
+
+<header class="ust">
+  <div class="kap">
+    <a class="marka" href="#"><img src="assets/icon128.png" alt=""><b>Kâtip</b></a>
+    <nav class="menu" aria-label="Sayfa içi">
+      <a href="#ozellikler">Özellikler</a>
+      <a href="#nasil">Nasıl çalışır</a>
+      <a href="#gizlilik">Gizlilik</a>
+      <a href="#sss" class="hep">SSS</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="kahraman">
+    <div class="kap">
+      <div>
+        <span class="rozet">Kurum içi · Davetle erişim · Chrome</span>
+        <h1>Türkçe toplantılarınızın <em>kâtibi</em></h1>
+        <p class="giris">Kâtip, Google Meet altyazısını konuşmacı ve saatle birlikte yazıya döker. Toplantıdan çıktığınız anda
+          dökümü Drive'ınıza kaydeder, size ya da tüm katılımcılara gönderir ve tek tıkla Gemini'ye aktarır.</p>
+        <div class="dugmeler">
+          <a class="btn ana" href="#nasil">Nasıl kurulur</a>
+          <a class="btn ikincil" href="gizlilik.html">Gizlilik politikası</a>
+        </div>
+        <p class="not">Toplantıya bot eklemez, ses kaydı almaz. Yalnızca yetkilendirilmiş kullanıcılar kurabilir.</p>
+      </div>
+      <div class="cerceve"><img src="assets/sahne-kayit.webp" width="1600" height="1000"
+        alt="Meet toplantısında sağ üstte Kâtip kartı: canlı döküm, önemli an ve not ekleme düğmeleri"></div>
+    </div>
+  </section>
+
+  <section class="bolum" id="ozellikler">
+    <div class="kap">
+      <div class="ust-baslik">
+        <span class="etiket">Özellikler</span>
+        <h2>Not tutmayı bırakın, <em>toplantıya odaklanın</em></h2>
+        <p>Meet'in kendi not alma özelliği Türkçe toplantıları desteklemiyor. Kâtip bu boşluk için yapıldı.</p>
+      </div>
+      <div class="ozellikler">
+        <div class="ozellik"><div class="simge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h10M4 18h13"/></svg></div>
+          <h3>Canlı döküm</h3><p>Altyazı, konuşmacı adı ve saatle birlikte kartta anlık görünür. Aynı kişinin ardışık cümleleri tek blokta toplanır.</p></div>
+        <div class="ozellik"><div class="simge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12l5 5L20 7"/></svg></div>
+          <h3>Kendiliğinden biter</h3><p>Görüşmeden ayrıldığınızda not otomatik bitirilir ve gönderilir. "Bitir"e basmayı unutmak sorun değil.</p></div>
+        <div class="ozellik"><div class="simge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg></div>
+          <h3>Önemli an ve not</h3><p>Tek tıkla bir anı işaretleyin ya da kendi notunuzu yazın; dökümde zamanıyla yerini alır.</p></div>
+        <div class="ozellik"><div class="simge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6l8 6 8-6"/><rect x="3" y="5" width="18" height="14" rx="2"/></svg></div>
+          <h3>Size ya da herkese</h3><p>Sadece bana ya da tüm katılımcılar. Tüm katılımcılar seçiliyse belge, takvim davetindeki kişilerle paylaşılır.</p></div>
+        <div class="ozellik"><div class="simge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M6 18l2.5-2.5M15.5 8.5L18 6"/></svg></div>
+          <h3>Tek tıkla Gemini</h3><p>Toplantı notu, aksiyon listesi, karar kaydı gibi altı hazır komuttan birini seçin; Gemini kendi hesabınızda, metin yazılmış olarak açılır.</p></div>
+        <div class="ozellik"><div class="simge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 2"/><circle cx="12" cy="12" r="9"/></svg></div>
+          <h3>Otomatik başlatma</h3><p>İsterseniz toplantıya girdiğiniz anda başlar. Kapalıysa 2 dakika sonra kart hatırlatır.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bolum">
+    <div class="kap">
+      <div class="vitrin">
+        <div>
+          <span class="etiket">Toplantı sırasında</span>
+          <h3>Her şey tek kartta</h3>
+          <p>Kart Meet'in sağ üstünde durur; sürükleyebilir, küçültebilirsiniz. Konumu ve tercihleriniz hatırlanır.</p>
+          <ul>
+            <li>Süre, cümle ve işaret sayısı</li>
+            <li>Altyazı dili göstergesi: Türkçe değilse uyarır</li>
+            <li>Notu kime göndereceğinizi toplantı sırasında da değiştirebilirsiniz</li>
+          </ul>
+        </div>
+        <div class="gorsel"><div class="cerceve dar"><img src="assets/kart-kayit.webp" width="576" height="1037" loading="lazy"
+          alt="Kayıt sırasında Kâtip kartı: süre, cümle ve işaret sayısı, dil satırı, canlı döküm"></div></div>
+      </div>
+
+      <div class="vitrin ters">
+        <div>
+          <span class="etiket">Toplantıdan sonra</span>
+          <h3>Belge Drive'da, bağlantı gelen kutusunda</h3>
+          <p>Döküm, Drive'ınızdaki "Kâtip Toplantı Dökümleri" klasörüne Google Doküman olarak kaydedilir.</p>
+          <ul>
+            <li>Belgenin başında Gemini için altı hazır komut</li>
+            <li>Önemli anlar ve notlarınız dökümde vurgulu</li>
+            <li>Panoya kopyalama, .txt ve .html indirme</li>
+          </ul>
+        </div>
+        <div class="gorsel"><div class="cerceve dar kirp"><img src="assets/kart-sonuc.webp" width="576" height="1372" loading="lazy"
+          alt="Toplantı sonrası kart: gönderim sonucu, Belgeyi aç bağlantısı ve Gemini'de aç düğmesi"></div></div>
+      </div>
+
+      <div class="vitrin">
+        <div>
+          <span class="etiket">Toplantı listesi</span>
+          <h3>Son 20 toplantınız tek yerde</h3>
+          <p>Kâtip simgesine tıklayınca toplantılarınız, gönderim durumu ve belge bağlantısıyla listelenir.</p>
+          <ul>
+            <li>Bir toplantıyı sonradan kendinize ya da herkese yeniden gönderin</li>
+            <li>Seçtiğiniz komutla doğrudan Gemini'de açın</li>
+            <li>Sağ tık menüsünden Drive klasörüne ve yetkilendirme sayfasına ulaşın</li>
+          </ul>
+        </div>
+        <div class="gorsel"><div class="cerceve orta kirp"><img src="assets/popup-liste.webp" width="760" height="1200" loading="lazy"
+          alt="Kâtip açılır penceresinde toplantı listesi"></div></div>
+      </div>
+
+      <div class="vitrin ters">
+        <div>
+          <span class="etiket">Ayarlar</span>
+          <h3>Bir kez ayarlayın</h3>
+          <ul>
+            <li>Varsayılan alıcı: Sadece bana ya da Tüm katılımcılar</li>
+            <li>Toplantıya girince otomatik başlat</li>
+            <li>Dökümde "Siz" yerine adınız</li>
+          </ul>
+        </div>
+        <div class="gorsel"><div class="cerceve orta kirp"><img src="assets/popup-ayarlar.webp" width="760" height="1280" loading="lazy"
+          alt="Kâtip ayarlar sekmesi"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bolum" id="nasil">
+    <div class="kap">
+      <div class="ust-baslik">
+        <span class="etiket">Nasıl çalışır</span>
+        <h2>Kurulum <em>iki dakika</em></h2>
+        <p>Kâtip davetle erişilen özel bir Chrome Web Store öğesidir. Bağlantıyı ekip yöneticinizden alın.</p>
+      </div>
+      <div class="adimlar">
+        <div class="adim"><h3>Eklentiyi kurun</h3><p>Size iletilen mağaza bağlantısını kurum hesabınızla açıp Chrome'a ekleyin.</p></div>
+        <div class="adim"><h3>Bir kez yetki verin</h3><p>Kâtip simgesine sağ tıklayın, "Yetkilendirme sayfasını aç" deyin ve izinleri onaylayın.</p></div>
+        <div class="adim"><h3>Toplantıya girin</h3><p>Meet'te altyazıyı Türkçe açın, kartta "Not almaya başla"ya basın ya da otomatik başlatmayı açın.</p></div>
+        <div class="adim"><h3>Ayrılın</h3><p>Not kendiliğinden biter; belge Drive'ınızda, bağlantı e-postanızda.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bolum" id="gizlilik">
+    <div class="kap">
+      <div class="ust-baslik">
+        <span class="etiket">Gizlilik</span>
+        <h2>Veriniz <em>sizin hesabınızda</em> kalır</h2>
+        <p>Ayrıntılar için <a href="gizlilik.html">gizlilik politikasına</a> bakın.</p>
+      </div>
+      <div class="gizlilik">
+        <div><b>Bot yok, ses kaydı yok</b><span>Yalnızca Meet'in sizin ekranınızda gösterdiği altyazı okunur.</span></div>
+        <div><b>Üçüncü taraf sunucu yok</b><span>Döküm, kendi Google hesabınızla çalışan Apps Script üzerinden kendi Drive'ınızda oluşur.</span></div>
+        <div><b>Siz başlatmadan bir şey toplanmaz</b><span>Otomatik başlatma varsayılan olarak kapalıdır.</span></div>
+        <div><b>Liste yalnızca bu bilgisayarda</b><span>Son toplantılar tarayıcının yerel depolamasında durur; istediğinizi silebilirsiniz.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bolum" id="sss">
+    <div class="kap">
+      <div class="ust-baslik"><span class="etiket">SSS</span><h2>Sık sorulanlar</h2></div>
+      <div class="sss">
+        <details><summary>Neden Meet'in kendi Gemini notlarını kullanmıyoruz?</summary>
+          <p>Meet'in otomatik not alma özelliği Türkçe toplantıları desteklemiyor. Kâtip, Türkçe altyazıdan döküm çıkarıp
+            notu Gemini'ye hazır komutla taşıyarak bu boşluğu kapatır. Türkçe olmayan toplantılarda Meet'in kendi notları kullanılabilir.</p></details>
+        <details><summary>Toplantıdaki diğer kişiler Kâtip'i görür mü?</summary>
+          <p>Hayır. Kâtip toplantıya katılımcı eklemez; yalnızca sizin tarayıcınızda çalışır. Yine de not aldığınızı katılımcılara
+            söylemeniz iyi bir uygulamadır.</p></details>
+        <details><summary>Döküm ne kadar doğru?</summary>
+          <p>Meet'in otomatik altyazısı kadar. Noktalama eksik olabilir, özel isim ve rakamlarda hata olabilir. Hazır komutlar
+            Gemini'den emin olmadığı bilgileri [?] ile işaretlemesini ister.</p></details>
+        <details><summary>"Tüm katılımcılar" kimleri kapsar?</summary>
+          <p>Takviminizdeki toplantı davetinde bulunan ve daveti reddetmemiş kişileri. Toplantı odaları dahil edilmez. Davet
+            bulunamazsa döküm yalnızca size gönderilir.</p></details>
+        <details><summary>Altyazıyı açmayı unutursam?</summary>
+          <p>Kâtip başladığında altyazıyı açmayı dener ve kartta "Altyazı bekleniyor" uyarısı gösterir. Altyazı dili Türkçe
+            değilse kart bunu da söyler.</p></details>
+        <details><summary>Eklentiyi kimler kurabilir?</summary>
+          <p>Kâtip Chrome Web Store'da özel olarak yayınlanır; yalnızca yetkili kullanıcı grubundaki hesaplar kurabilir.
+            Döküm servisi de yalnızca kurum hesaplarına açıktır.</p></details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="kap">
+    <span>Kâtip · segelferd</span>
+    <nav aria-label="Alt bağlantılar">
+      <a href="gizlilik.html">Gizlilik</a>
+      <a href="mailto:semih.kalaycioglu@outlook.com">İletişim</a>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>

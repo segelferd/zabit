@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kâtip Gizlilik Politikası</title>
+  <style>
+    :root { --zemin: #FAF8F3; --yazi: #1B2430; --soluk: #5B6573; --vurgu: #A8761A; --cizgi: #E4DED1; }
+    @media (prefers-color-scheme: dark) {
+      :root { --zemin: #1B2430; --yazi: #EDE6D6; --soluk: #A9B4C0; --vurgu: #D9A02B; --cizgi: #2E3A4A; }
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--zemin); color: var(--yazi);
+      font: 16px/1.65 -apple-system, "Segoe UI", Roboto, Arial, sans-serif; }
+    main { max-width: 760px; margin: 0 auto; padding: 48px 20px 64px; }
+    h1 { font: 400 34px/1.2 Georgia, "Times New Roman", serif; margin: 0 0 6px; }
+    h2 { font-size: 19px; margin: 34px 0 8px; }
+    p, li { color: var(--yazi); }
+    .tarih { color: var(--soluk); margin: 0 0 28px; }
+    ul { padding-left: 22px; }
+    li { margin: 0 0 6px; }
+    hr { border: none; border-top: 1px solid var(--cizgi); margin: 48px 0; }
+    a { color: var(--vurgu); }
+    table { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 15px; }
+    th, td { text-align: left; vertical-align: top; padding: 8px 10px; border-bottom: 1px solid var(--cizgi); }
+    th { color: var(--soluk); font-weight: 600; }
+    @media (max-width: 560px) { table, tbody, tr, td, th { display: block; } th { display: none; }
+      td { border: none; padding: 2px 0; } tr { border-bottom: 1px solid var(--cizgi); padding: 8px 0; } }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Kâtip Gizlilik Politikası</h1>
+  <p class="tarih">Son güncelleme: 5 Kasım 2026 · Sürüm 1.1.2</p>
+
+  <p>Kâtip, Google Meet toplantılarında kullanıcının ekranında görünen canlı altyazıyı yazıya döken bir Chrome
+    eklentisidir. Kurum içi kullanım için hazırlanmıştır ve yalnızca yetkilendirilmiş kullanıcılara açıktır.
+    Bu sayfa eklentinin hangi verileri, nerede ve ne amaçla işlediğini açıklar.</p>
+
+  <h2>Kısaca</h2>
+  <ul>
+    <li>Toplantıya bot eklenmez, ses kaydı alınmaz.</li>
+    <li>Kullanıcı not almayı başlatmadıkça (ya da otomatik başlatmayı açmadıkça) hiçbir veri toplanmaz.</li>
+    <li>Üçüncü taraf sunucu yoktur. Veriler yalnızca Google hizmetlerinde ve kullanıcının kendi Google hesabı altında işlenir.</li>
+    <li>Veriler satılmaz, reklam ya da profil oluşturma amacıyla kullanılmaz, geliştiriciye gönderilmez.</li>
+  </ul>
+
+  <h2>İşlenen veriler</h2>
+  <table>
+    <tr><th>Veri</th><th>Nereden</th><th>Ne için</th></tr>
+    <tr><td>Altyazı metni ve konuşmacı adları</td><td>Meet sayfasında kullanıcının ekranında görünen altyazı</td><td>Toplantı dökümünü oluşturmak</td></tr>
+    <tr><td>Toplantı kodu, adresi, başlangıç ve bitiş zamanı</td><td>Meet sayfası</td><td>Belgeyi adlandırmak ve doğru toplantıyla eşleştirmek</td></tr>
+    <tr><td>Kullanıcının eklediği önemli an işaretleri ve notlar</td><td>Kullanıcı</td><td>Dökümde yerlerine yerleştirmek</td></tr>
+    <tr><td>Kullanıcının girdiği adı ve ayarları</td><td>Kullanıcı</td><td>Dökümde "Siz" yerine adı yazmak, tercihleri hatırlamak</td></tr>
+    <tr><td>Takvim davetindeki toplantı adı ve davetli e-posta adresleri</td><td>Kullanıcının kendi Google Takvimi</td><td>Yalnızca "Tüm katılımcılar" seçiliyse belgeyi davetlilerle paylaşmak ve onlara e-posta göndermek</td></tr>
+  </table>
+
+  <h2>Verilerin gittiği yerler</h2>
+  <ul>
+    <li><strong>Tarayıcının yerel depolaması:</strong> ayarlar ve son 20 toplantının listesi (döküm dahil) yalnızca kullanıcının bilgisayarında tutulur. Kullanıcı listeden istediği kaydı silebilir; eklenti kaldırılınca tümü silinir.</li>
+    <li><strong>Google Apps Script:</strong> toplantı bitince döküm, kullanıcının kendi Google hesabıyla çalışan bir Apps Script web uygulamasına iletilir. Veri adresin <code>#</code> bölümünde taşınır; bu bölüm tarayıcıdan sunucu günlüklerine gönderilmez.</li>
+    <li><strong>Google Drive ve Gmail:</strong> döküm kullanıcının kendi Drive'ında Google Doküman olarak oluşturulur ve kullanıcının kendi hesabından e-postayla gönderilir. Kullanıcı "Tüm katılımcılar" seçerse belge davetlilerle okuyucu olarak paylaşılır.</li>
+    <li><strong>Gemini:</strong> yalnızca kullanıcı "Gemini'de aç" düğmesine bastığında, seçilen komut ve döküm kullanıcının kendi hesabındaki gemini.google.com giriş kutusuna yazılır. Mesajı göndermek kullanıcıya kalır.</li>
+  </ul>
+  <p>Google hizmetlerinde işlenen veriler, kullanıcının bağlı olduğu Google hesabı ya da Google Workspace sözleşmesinin koşullarına tabidir.</p>
+
+  <h2>Saklama ve silme</h2>
+  <p>Eklenti kendi sunucusunda veri saklamaz. Drive'daki belgeler ve gönderilen e-postalar kullanıcının hesabında durur;
+    kullanıcı bunları Drive ve Gmail'den her zaman silebilir. Yerel liste en fazla 20 toplantı tutar, eskileri kendiliğinden silinir.</p>
+
+  <h2>İzinler</h2>
+  <p>Eklenti yalnızca meet.google.com, script.google.com, Apps Script'in kullandığı googleusercontent.com çerçeveleri ve
+    gemini.google.com üzerinde çalışır. Başka hiçbir sitedeki içeriğe erişmez.</p>
+
+  <h2>İletişim</h2>
+  <p>Sorular için: <a href="mailto:semih.kalaycioglu@outlook.com">semih.kalaycioglu@outlook.com</a></p>
+
+  <hr>
+
+  <h1>Kâtip Privacy Policy</h1>
+  <p class="tarih">Last updated: November 5, 2026 · Version 1.1.2</p>
+  <p>Kâtip is a Chrome extension that turns the live captions shown on the user's own screen in Google Meet into a
+    transcript. It is built for internal use and is available only to authorized users.</p>
+  <ul>
+    <li>No bot joins the call and no audio is recorded. Nothing is collected until the user starts note-taking (or enables auto-start).</li>
+    <li><strong>Data processed:</strong> caption text and speaker names, meeting code, URL and times, the user's own marks, notes, display name and settings, and, only when the user chooses "All participants", the meeting title and invitee email addresses from the user's own Google Calendar.</li>
+    <li><strong>Where it goes:</strong> the browser's local storage (settings and the last 20 meetings), a Google Apps Script web app running under the user's own Google account, the user's own Google Drive and Gmail, and, only when the user clicks "Open in Gemini", the Gemini input box in the user's own account (never sent automatically).</li>
+    <li>There are no third-party servers. Data is never sold, never used for advertising or profiling, and never sent to the developer.</li>
+    <li>Documents and emails remain in the user's account and can be deleted there at any time. Uninstalling the extension removes all local data.</li>
+  </ul>
+  <p>Contact: <a href="mailto:semih.kalaycioglu@outlook.com">semih.kalaycioglu@outlook.com</a></p>
+</main>
+</body>
+</html>
