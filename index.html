@@ -165,11 +165,11 @@
         <div class="ozellik"><div class="simge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12l5 5L20 7"/></svg></div>
           <h3>Kendiliğinden biter</h3><p>Görüşmeden ayrıldığınızda not otomatik bitirilir ve gönderilir. "Bitir"e basmayı unutmak sorun değil.</p></div>
         <div class="ozellik"><div class="simge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg></div>
-          <h3>Önemli an ve not</h3><p>Tek tıkla bir anı işaretleyin ya da kendi notunuzu yazın; dökümde zamanıyla yerini alır.</p></div>
+          <h3>Önemli an ve not</h3><p>Tek tıkla ya da Alt+Shift+M ile bir anı işaretleyin, Alt+Shift+K ile kendi notunuzu yazın; dökümde zamanıyla yerini alır.</p></div>
         <div class="ozellik"><div class="simge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6l8 6 8-6"/><rect x="3" y="5" width="18" height="14" rx="2"/></svg></div>
           <h3>Size ya da herkese</h3><p>Sadece bana ya da tüm katılımcılar. Tüm katılımcılar seçiliyse belge, takvim davetindeki kişilerle paylaşılır.</p></div>
         <div class="ozellik"><div class="simge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M6 18l2.5-2.5M15.5 8.5L18 6"/></svg></div>
-          <h3>Tek tıkla Gemini</h3><p>E-posta metinli toplantı notu, aksiyon listesi, karar kaydı gibi yedi hazır komuttan birini seçin; Gemini kendi hesabınızda, metin yazılmış olarak açılır. Sonucu Gemini'den Docs'a ya da Gmail taslağına aktarın.</p></div>
+          <h3>Tek tıkla Gemini</h3><p>E-posta metinli toplantı notu, aksiyon listesi, karar kaydı gibi yedi hazır komuttan ya da kendi yazdığınız komutlardan birini seçin; Gemini kendi hesabınızda, metin yazılmış olarak açılır. Sonucu Gemini'den Docs'a ya da Gmail taslağına aktarın.</p></div>
         <div class="ozellik"><div class="simge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 2"/><circle cx="12" cy="12" r="9"/></svg></div>
           <h3>Otomatik başlatma</h3><p>İsterseniz toplantıya girdiğiniz anda başlar. Kapalıysa 2 dakika sonra kart hatırlatır.</p></div>
         <div class="ozellik"><div class="simge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg></div>
@@ -190,6 +190,8 @@
           <ul>
             <li>Süre, cümle ve işaret sayısı</li>
             <li>Altyazı dili göstergesi: Türkçe değilse uyarır</li>
+            <li>Meet sayfası değişip altyazı okunamazsa toplantı bitmeden uyarır</li>
+            <li>Alt+Shift+M önemli an, Alt+Shift+K not</li>
             <li>Notu kime göndereceğinizi toplantı sırasında da değiştirebilirsiniz</li>
             <li>Toplantıdan sonra × ile tamamen gizleyin; simgedeki "Kartı göster" ile geri gelir</li>
           </ul>
@@ -237,6 +239,8 @@
             <li>Toplantıya girince otomatik başlat</li>
             <li>Dökümde "Siz" yerine adınız</li>
             <li>Apps Script olmadan çalış ve otomatik .html yedeği</li>
+            <li>En fazla üç kendi Gemini komutunuz</li>
+            <li>Sorun olursa tek tıkla destek bilgisi; döküm ve kişi adları eklenmez</li>
           </ul>
         </div>
         <div class="gorsel"><div class="cerceve orta kirp"><img src="assets/popup-ayarlar.webp" width="760" height="1280" loading="lazy"
@@ -304,6 +308,13 @@
             ve yerel moda kendiliğinden geçer. Bu modda döküm hiçbir yere gönderilmez; canlı döküm, önemli an, not, Gemini'de aç,
             Docs'a aktar, kopyalama ve indirme çalışır, her toplantının .html yedeği İndirilenler klasörüne iner. Drive'a kayıt ve
             e-posta yapılmaz; notu Gemini'deki "Docs'a aktar" ya da "Gmail'de taslak" ile kolayca belgeye veya e-postaya çevirebilirsiniz.</p></details>
+        <details><summary>Kart "Altyazı okunamıyor" diyor, ne yapmalıyım?</summary>
+          <p>Ekranda altyazı aktığı halde Zabıt cümle yakalayamıyorsa Google Meet sayfasını değiştirmiş olabilir. O toplantının
+            dökümü eksik kalabilir; önemli noktaları elle not alın. Zabıt simgesi &gt; Ayarlar &gt; "Destek bilgisini kopyala" ile
+            bilgiyi bize iletin, gerekirse Zabıt güncellenir.</p></details>
+        <details><summary>Kısayolları değiştirebilir miyim?</summary>
+          <p>Evet. Zabıt simgesi &gt; Ayarlar &gt; "Kısayolları değiştir" ya da Chrome'da <code>chrome://extensions/shortcuts</code>.
+            Varsayılanlar: önemli an Alt+Shift+M, not ekle Alt+Shift+K.</p></details>
         <details><summary>Toplantıdan sonra kart ekranda kalıyor, nasıl kapatırım?</summary>
           <p>Kartın sağ üstündeki × düğmesine basın. Kart o toplantı için gizlenir; tekrar görmek isterseniz Zabıt simgesine
             tıklayıp "Kartı göster"e basın.</p></details>

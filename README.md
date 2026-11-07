@@ -29,13 +29,15 @@ Meet'in kendi not alma özelliği Türkçe toplantıları desteklemediği için 
 | **Canlı döküm** | Konuşmacı adı ve saatle birlikte, kartta anlık |
 | **Kendiliğinden biter** | Görüşmeden ayrılınca not otomatik bitirilir ve gönderilir |
 | **Otomatik başlatma** | İsteğe bağlı; kapalıysa 2 dakika sonra hatırlatma |
-| **Önemli an ve not** | Tek tıkla işaret, kendi notunuz dökümde zamanıyla |
+| **Önemli an ve not** | Tek tıkla ya da Alt+Shift+M / Alt+Shift+K; dökümde zamanıyla |
 | **Alıcı seçimi** | Sadece bana ya da tüm katılımcılar; seçim kalıcı |
-| **Gemini'de aç** | 7 hazır komut: e-posta metinli toplantı notu, toplantı notu, aksiyon listesi, katılımcı özeti, karar kaydı, riskler, konuşmacı bazlı taahhütler |
+| **Gemini'de aç** | En fazla 3 kendi komutunuz ve 7 hazır komut: e-posta metinli toplantı notu, toplantı notu, aksiyon listesi, katılımcı özeti, karar kaydı, riskler, konuşmacı bazlı taahhütler |
 | **Google Docs'a aktar** | Biçimli döküm panoda, başlığı hazır yeni Doküman açılır |
 | **Toplantı listesi** | Son 50 toplantı; sonradan yeniden gönderme |
 | **Katılımcı listesi** | Meet'te görünen katılımcılar dökümün başında |
 | **Dil göstergesi** | Altyazı Türkçe değilse uyarı |
+| **Altyazı sağlık uyarısı** | Meet değişip altyazı okunamazsa toplantı sırasında uyarı |
+| **Destek bilgisi** | Sürüm ve ayarlar tek tıkla panoda; döküm ve kişi adları yok |
 | **Yerel mod** | Apps Script erişimi yoksa kendiliğinden açılır; gönderimsiz çalışma, otomatik .html yedeği |
 | **Kartı gizle** | Toplantı sonrası × ile gizleme, simgeden "Kartı göster" |
 
