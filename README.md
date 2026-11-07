@@ -31,10 +31,13 @@ Meet'in kendi not alma özelliği Türkçe toplantıları desteklemediği için 
 | **Otomatik başlatma** | İsteğe bağlı; kapalıysa 2 dakika sonra hatırlatma |
 | **Önemli an ve not** | Tek tıkla işaret, kendi notunuz dökümde zamanıyla |
 | **Alıcı seçimi** | Sadece bana ya da tüm katılımcılar; seçim kalıcı |
-| **Gemini'de aç** | 6 hazır komut: toplantı notu, aksiyon listesi, katılımcı özeti, karar kaydı, riskler, konuşmacı bazlı taahhütler |
-| **Toplantı listesi** | Son 20 toplantı; sonradan yeniden gönderme |
+| **Gemini'de aç** | 7 hazır komut: e-posta metinli toplantı notu, toplantı notu, aksiyon listesi, katılımcı özeti, karar kaydı, riskler, konuşmacı bazlı taahhütler |
+| **Google Docs'a aktar** | Biçimli döküm panoda, başlığı hazır yeni Doküman açılır |
+| **Toplantı listesi** | Son 50 toplantı; sonradan yeniden gönderme |
+| **Katılımcı listesi** | Meet'te görünen katılımcılar dökümün başında |
 | **Dil göstergesi** | Altyazı Türkçe değilse uyarı |
-| **Yerel mod** | Apps Script erişimi olmayan hesaplarda gönderimsiz çalışma |
+| **Yerel mod** | Apps Script erişimi yoksa kendiliğinden açılır; gönderimsiz çalışma, otomatik .html yedeği |
+| **Kartı gizle** | Toplantı sonrası × ile gizleme, simgeden "Kartı göster" |
 
 ## Gizlilik
 
@@ -46,7 +49,7 @@ Ayrıntılar: [gizlilik politikası](https://segelferd.github.io/zabit/gizlilik.
 
 ## Erişim
 
-Zabıt kurum içi kullanım için hazırlanmıştır. Chrome Web Store'da listelenmez, yalnızca ekibe iletilen bağlantıyla kurulur. Döküm servisi yalnızca kurum hesaplarına açıktır. Bu depo yalnızca tanıtım ve gizlilik sayfalarını içerir; eklentinin kaynak kodu burada yayınlanmaz.
+Zabıt kurum içi kullanım için hazırlanmıştır. Chrome Web Store'da aramada çıkmaz, yalnızca ekibe iletilen bağlantıyla kurulur. Döküm servisi yalnızca kurum hesaplarına açıktır. Bu depo yalnızca tanıtım ve gizlilik sayfalarını içerir; eklentinin kaynak kodu burada yayınlanmaz.
 
 ## İletişim
 

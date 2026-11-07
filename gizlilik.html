@@ -31,7 +31,7 @@
 <body>
 <main>
   <h1>Zabıt Gizlilik Politikası</h1>
-  <p class="tarih">Son güncelleme: 6 Kasım 2026 · Sürüm 1.2.0</p>
+  <p class="tarih">Son güncelleme: 7 Kasım 2026 · Sürüm 1.3.0</p>
 
   <p>Zabıt, Google Meet toplantılarında kullanıcının ekranında görünen canlı altyazıyı yazıya döken bir Chrome
     eklentisidir. Kurum içi kullanım için hazırlanmıştır ve yalnızca yetkilendirilmiş kullanıcılara açıktır.
@@ -49,6 +49,7 @@
   <table>
     <tr><th>Veri</th><th>Nereden</th><th>Ne için</th></tr>
     <tr><td>Altyazı metni ve konuşmacı adları</td><td>Meet sayfasında kullanıcının ekranında görünen altyazı</td><td>Toplantı dökümünü oluşturmak</td></tr>
+    <tr><td>Meet'te görünen katılımcı adları</td><td>Meet sayfasındaki katılımcı kutucukları</td><td>Dökümün başına "Katılımcılar" satırı eklemek</td></tr>
     <tr><td>Toplantı kodu, adresi, başlangıç ve bitiş zamanı</td><td>Meet sayfası</td><td>Belgeyi adlandırmak ve doğru toplantıyla eşleştirmek</td></tr>
     <tr><td>Kullanıcının eklediği önemli an işaretleri ve notlar</td><td>Kullanıcı</td><td>Dökümde yerlerine yerleştirmek</td></tr>
     <tr><td>Kullanıcının girdiği adı ve ayarları</td><td>Kullanıcı</td><td>Dökümde "Siz" yerine adı yazmak, tercihleri hatırlamak</td></tr>
@@ -57,17 +58,19 @@
 
   <h2>Verilerin gittiği yerler</h2>
   <ul>
-    <li><strong>Tarayıcının yerel depolaması:</strong> ayarlar ve son 20 toplantının listesi (döküm dahil) yalnızca kullanıcının bilgisayarında tutulur. Kullanıcı listeden istediği kaydı silebilir; eklenti kaldırılınca tümü silinir.</li>
+    <li><strong>Tarayıcının yerel depolaması:</strong> ayarlar ve son 50 toplantının listesi (döküm dahil) yalnızca kullanıcının bilgisayarında tutulur. Kullanıcı listeden istediği kaydı silebilir; eklenti kaldırılınca tümü silinir.</li>
     <li><strong>Google Apps Script:</strong> toplantı bitince döküm, kullanıcının kendi Google hesabıyla çalışan bir Apps Script web uygulamasına iletilir. Veri adresin <code>#</code> bölümünde taşınır; bu bölüm tarayıcıdan sunucu günlüklerine gönderilmez.</li>
     <li><strong>Google Drive ve Gmail:</strong> döküm kullanıcının kendi Drive'ında Google Doküman olarak oluşturulur ve kullanıcının kendi hesabından e-postayla gönderilir. Kullanıcı "Tüm katılımcılar" seçerse belge davetlilerle okuyucu olarak paylaşılır.</li>
-    <li><strong>Yerel mod:</strong> kullanıcı "Apps Script olmadan çalış" seçeneğini açarsa döküm hiçbir yere gönderilmez; yalnızca tarayıcının yerel depolamasında kalır.</li>
+    <li><strong>Yerel mod:</strong> kullanıcı "Apps Script olmadan çalış" seçeneğini açarsa ya da hesabın Apps Script erişimi olmadığı için eklenti bu moda kendiliğinden geçerse döküm hiçbir yere gönderilmez; tarayıcının yerel depolamasında kalır.</li>
+    <li><strong>Yerel yedek:</strong> "Toplantı bitince .html yedeğini indir" açıksa (yerel modda varsayılan) döküm, kullanıcının bilgisayarındaki İndirilenler klasörüne .html dosyası olarak kaydedilir.</li>
+    <li><strong>Google Docs'a aktar:</strong> yalnızca kullanıcı bu düğmeye bastığında döküm panoya kopyalanır ve kullanıcının kendi hesabında boş bir Google Doküman açılır. Metni belgeye yapıştırmak kullanıcıya kalır.</li>
     <li><strong>Gemini:</strong> yalnızca kullanıcı "Gemini'de aç" düğmesine bastığında, seçilen komut ve döküm kullanıcının kendi hesabındaki gemini.google.com giriş kutusuna yazılır. Mesajı göndermek kullanıcıya kalır.</li>
   </ul>
   <p>Google hizmetlerinde işlenen veriler, kullanıcının bağlı olduğu Google hesabı ya da Google Workspace sözleşmesinin koşullarına tabidir.</p>
 
   <h2>Saklama ve silme</h2>
   <p>Eklenti kendi sunucusunda veri saklamaz. Drive'daki belgeler ve gönderilen e-postalar kullanıcının hesabında durur;
-    kullanıcı bunları Drive ve Gmail'den her zaman silebilir. Yerel liste en fazla 20 toplantı tutar, eskileri kendiliğinden silinir.</p>
+    kullanıcı bunları Drive ve Gmail'den her zaman silebilir. Yerel liste en fazla 50 toplantı tutar, eskileri kendiliğinden silinir.</p>
 
   <h2>İzinler</h2>
   <p>Eklenti yalnızca meet.google.com, script.google.com, Apps Script'in kullandığı googleusercontent.com çerçeveleri ve
@@ -79,13 +82,13 @@
   <hr>
 
   <h1>Zabıt Privacy Policy</h1>
-  <p class="tarih">Last updated: November 6, 2026 · Version 1.2.0</p>
+  <p class="tarih">Last updated: November 7, 2026 · Version 1.3.0</p>
   <p>Zabıt is a Chrome extension that turns the live captions shown on the user's own screen in Google Meet into a
     transcript. It is built for internal use and is available only to authorized users.</p>
   <ul>
     <li>No bot joins the call and no audio is recorded. Nothing is collected until the user starts note-taking (or enables auto-start).</li>
-    <li><strong>Data processed:</strong> caption text and speaker names, meeting code, URL and times, the user's own marks, notes, display name and settings, and, only when the user chooses "All participants", the meeting title and invitee email addresses from the user's own Google Calendar.</li>
-    <li><strong>Where it goes:</strong> the browser's local storage (settings and the last 20 meetings), a Google Apps Script web app running under the user's own Google account, the user's own Google Drive and Gmail, and, only when the user clicks "Open in Gemini", the Gemini input box in the user's own account (never sent automatically).</li>
+    <li><strong>Data processed:</strong> caption text and speaker names, participant names shown in Meet, meeting code, URL and times, the user's own marks, notes, display name and settings, and, only when the user chooses "All participants", the meeting title and invitee email addresses from the user's own Google Calendar.</li>
+    <li><strong>Where it goes:</strong> the browser's local storage (settings and the last 50 meetings), an optional .html backup in the user's Downloads folder,, a Google Apps Script web app running under the user's own Google account, the user's own Google Drive and Gmail, and, only when the user clicks "Open in Gemini", the Gemini input box in the user's own account (never sent automatically), and, only when the user clicks "Export to Docs", the clipboard and a new blank Google Doc in the user's own account.</li>
     <li>There are no third-party servers. Data is never sold, never used for advertising or profiling, and never sent to the developer.</li>
     <li>Documents and emails remain in the user's account and can be deleted there at any time. Uninstalling the extension removes all local data.</li>
   </ul>
